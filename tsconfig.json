@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "incremental": true,               // 启用增量编译
+    "target": "ES2017",                // 编译成指定的 JavaScript 版本
+    "module": "commonjs",              // 指定编译成何种模组
+    "declaration": true,               // 产生 '.d.ts' 档
+    "sourceMap": true,                 // 产生 '.map' 档
+    "outDir": "./dist",                // 指定编译后的档案存放点
+    "rootDir": "./app",                // 载入点的位置
+    "removeComments": true,            // 移除注解
+    "strict": true,                    // 采用严格模式
+    "baseUrl": "./app",                // 指定汇入档案的基准路径
+    "esModuleInterop": true,           // 兼容模组
+    "experimentalDecorators": true,    // 启用装饰器
+    "emitDecoratorMetadata": true      // 提供装饰器 metadata
+  },
+  "include": ["app/**/*.ts"],          // 纳入编译范围
+  "exclude": ["node_modules", "dist"]  //不纳入编译范围
+}
