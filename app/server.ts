@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
-import AWS from 'aws-sdk'
+// import AWS from 'aws-sdk'
 
 // 根据 NODE_ENV 加载对应的 .env 文件
 dotenv.config({
@@ -10,13 +10,12 @@ dotenv.config({
 });
 
 import { applyPhotoRoutes } from './routes/photo.routes';
-import { db } from './models';
+// import { db } from './models';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import multer from 'multer';
 import SendData = ManagedUpload.SendData;
-import axios from 'axios';
 import { getJson } from 'serpapi';
 
 const app = express();
@@ -32,13 +31,12 @@ app.get('/', (req, res) => {
   res.json({ message: '欢迎访问卡拉云后端服务器' });
 });
 
+/*
 // 配置 Multer
 const upload = multer({
   storage: multer.memoryStorage(), // 使用内存存储，文件将保存在内存中
   limits: { fileSize: 10 * 1024 * 1024 }, // 设置文件大小限制
 });
-
-const s3 = new AWS.S3();
 
 // 设置路由以处理文件上传
 app.post('/upload', upload.single('building'), function (req, res: any) {
@@ -57,6 +55,7 @@ app.post('/upload', upload.single('building'), function (req, res: any) {
   };
 
   // 上传文件到S3
+  const s3 = new AWS.S3();
   s3.upload(params, function (err: Error, data: SendData) {
     if (err) {
       console.error('上传到S3出错: ', err);
@@ -82,7 +81,7 @@ app.get('/form', function (req, res, next) {
   const form = fs.readFileSync(path.join(__dirname, 'form.html'), { encoding: 'utf8' });
   res.send(form);
 });
-
+*/
 applyPhotoRoutes(app);
 
 // 设置监听端口
@@ -91,4 +90,4 @@ app.listen(PORT, () => {
   console.log(`服务器运行端口： ${PORT}.`);
 });
 
-db.sequelize.sync();
+// db.sequelize.sync();
