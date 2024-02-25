@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { db } from '../models'; // 假设类型定义已经存在
+import { db } from '../models';
+import { recognizePhotoBySerpAPI } from '../utils/other';
 
 const Photo = db.photos;
 // @ts-ignore
@@ -8,29 +9,29 @@ const Op = db.Sequelize.Op;
 // 创建并保存一条记录
 export const create = (req: Request, res: Response): void => {
   // 验证请求
-  if (!req.body.name) {
-    res.status(400).send({
-      message: '内容不能为空'
-    });
+  const file = req.file;
+  if (!file) {
+    res.status(400).send('请上传文件。');
     return;
   }
+  recognizePhotoBySerpAPI(file).then((data: any) => {
+    console.log('recognizePhotoBySerpAPI', data);
+    const photo: any = {
+      type: 'building',
+      name: file.originalname,
+      url: data.imageUrl,
+    };
 
-  // 创建一条记录
-  const photo: any = {
-    type: req.body.type,
-    name: req.body.name,
-  };
-
-  // 将记录保存到数据库
-  Photo.create(photo)
-    .then((data: any) => {
-      res.send(data);
-    })
-    .catch((err: { message: any; }) => {
-      res.status(500).send({
-        message: err.message || '创建记录时发生错误。'
+    Photo.create(photo)
+      .then(() => {
+        res.send(data.searchJson);
+      })
+      .catch((err: { message: any; }) => {
+        res.status(500).send({
+          message: err.message || '创建记录时发生错误。'
+        });
       });
-    });
+  })
 };
 
 // 从数据库中搜索.
