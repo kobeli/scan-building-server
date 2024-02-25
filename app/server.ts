@@ -25,7 +25,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/form', function (req, res, next) {
-  const form = fs.readFileSync(path.join(__dirname, 'form.html'), { encoding: 'utf8' });
   res.send('<!DOCTYPE html>\n' +
     '<html>\n' +
     '<head><title>File Upload</title></head>\n' +
