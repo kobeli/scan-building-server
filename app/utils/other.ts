@@ -23,14 +23,13 @@ export const recognizePhotoBySerpAPI = async (file: Express.Multer.File) => {
   try {
     const s3 = await s3ClientSingleton.getInstance();
     const uploadResult = await s3.send(command);
-    console.log(uploadResult);
     const s3Url = `https://${'scanbuilding'}.s3.amazonaws.com/${encodeURIComponent(keyName)}`;
     const result = await getJson({
       engine: 'google_lens',
       api_key: '0fe2e55cbc9ca201746be8ed7b9f3f803dd12cbd0461100e599b458218bf897d',
       url: s3Url,
     });
-
+    console.log('getJson: ', result);
     return {
       imageUrl: s3Url,
       content: !!result.knowledge_graph.length ? result.knowledge_graph[0] : {},
