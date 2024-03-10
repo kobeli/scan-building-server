@@ -24,7 +24,7 @@ export const create = (req: Request, res: Response): void => {
 
     Photo.create(photo)
       .then(() => {
-        res.send(data.searchJson);
+        res.send(data);
       })
       .catch((err: { message: any; }) => {
         res.status(500).send({

@@ -30,9 +30,11 @@ export const recognizePhotoBySerpAPI = async (file: Express.Multer.File) => {
       api_key: '0fe2e55cbc9ca201746be8ed7b9f3f803dd12cbd0461100e599b458218bf897d',
       url: s3Url,
     });
+
     return {
       imageUrl: s3Url,
-      searchJson: result,
+      content: !!result.knowledge_graph.length ? result.knowledge_graph[0] : {},
+      status: result.search_metadata?.status ?? 'Error'
     };
   } catch (error) {
     console.error(error);
