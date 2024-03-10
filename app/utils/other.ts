@@ -32,7 +32,7 @@ export const recognizePhotoBySerpAPI = async (file: Express.Multer.File) => {
     console.log('getJson: ', result);
     return {
       imageUrl: s3Url,
-      content: !!result.knowledge_graph.length ? result.knowledge_graph[0] : {},
+      content: result,
       status: result.search_metadata?.status ?? 'Error'
     };
   } catch (error) {
